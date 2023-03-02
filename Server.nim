@@ -6,18 +6,21 @@ type
     address: string
 var 
   clientsArray: seq[Client]
-
+  connectedClientsThread: Thread[Socket]
 
 let socket = newSocket()
 socket.bindAddr(Port(1234))
 socket.listen()
 
 
+proc listenForMassage(clientSocket:Socket) {.thread.} = 
+  while true:
+    var msg = clientSocket.recvLine()
+    echo(msg)
+
 while true:
   var client: Client
   socket.acceptAddr(client.socket, client.address)
   clientsArray.add(client)
-
-  for i in clientsArray:
-    i.socket.recvLine()
-    echo (i)
+  createThread[Socket](connectedClientsThread,listenForMassage,(client.socket))
+  
