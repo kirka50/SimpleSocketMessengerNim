@@ -1,6 +1,7 @@
 import std/[net]
 
 
+
 proc createNewSocket*(): Socket = 
     let socket = newSocket()
     echo("Socket Created")

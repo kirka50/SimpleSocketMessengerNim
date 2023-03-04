@@ -1,6 +1,7 @@
 import std/sequtils
 import std/[net, locks]
 type 
+  
   Client = object
     socket: Socket
     address: string

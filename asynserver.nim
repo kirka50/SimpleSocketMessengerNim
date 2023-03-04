@@ -1,5 +1,6 @@
 import std/[asyncnet, asyncdispatch]
 
+
 var clients {.threadvar.}: seq[AsyncSocket]
 
 proc processClient(client: AsyncSocket) {.async.} =
