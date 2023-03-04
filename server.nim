@@ -1,5 +1,6 @@
 import std/sequtils
 import std/[net, locks]
+# Thread-like server. Only adress by adress compare work corretly, dont know why but socket by socket cant work normaly
 type 
   
   Client = object
@@ -20,7 +21,7 @@ proc sendMassageToOthers(client: Client; massage: string) =
   acquire(lock)
   let clientsArray = cast[ptr seq[Client]](clientsArrayPtr)[]
   for i in clientsArray:
-    if i.address != client.address:
+    if i.address != client.address: #Adress by adress compare
       i.socket.send(massage & "\n")
   release(lock)
 
